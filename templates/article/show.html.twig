@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block body %}
+    {{ dump(article) }}
+    <h1>{{ article.title }}</h1>
+    <p>{{ article.content }}</p>
+    <p>{{ article.createdAt.date }}</p>
+    <p>{{ article.updatedAt.date }}</p>
+
+
+    {% if article.category is empty %}
+        <p>Aucune catégorie associé.</p>
+    {% else %}
+        <p>Category : {{ article.category.title }}</p>
+    {% endif %}
+    {% if article.user is empty %}
+        <p>createur anonyme</p>
+    {% else %}
+        <p>Créer par : {{ article.user.username }}</p>
+    {% endif %}
+{% endblock %}

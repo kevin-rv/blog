@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ category.title }}{% endblock %}
+
+{% block body %}
+    {{ dump(category) }}
+    <h1>Category ✅</h1>
+    <h1>Titre : {{ category.title }}</h1>
+    <h1>Articles Associer ✅</h1>
+    {% if category.articles is empty %}
+        <p>Aucun article associé.</p>
+    {% else %}
+        <ul>
+            {% for article in category.articles %}
+                <li><a href="article/{{ article.id }}">{{ article.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
