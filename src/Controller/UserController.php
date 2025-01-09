@@ -28,7 +28,7 @@ class UserController extends AbstractController
                 ->setRoles(['ROLE_USER']);
             $em->persist($user);
             $em->flush();
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('app_login');
         }
         return $this->render('user/sign_up.html.twig', [
             'form' => $form->createView(),
