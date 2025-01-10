@@ -3,7 +3,9 @@
 {% block title %}{{ article.title }}{% endblock %}
 
 {% block body %}
-    {{ dump(article) }}
+    <a href="/article" class="btn btn-danger text-white">
+        <i class="bi bi-backspace"></i>
+    </a>
     <h1>{{ article.title }}</h1>
     <p>{{ article.content }}</p>
     <p>{{ article.createdAt.date }}</p>

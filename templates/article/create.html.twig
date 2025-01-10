@@ -3,5 +3,11 @@
 {% block title %}Create Article{% endblock %}
 
 {% block body %}
+<div>
+    <a href="/article" class="btn btn-danger text-white">
+        <i class="bi bi-backspace"></i>
+    </a>
+    <h1>Créer un article</h1>
+</div>
     {{ form(form) }}
 {% endblock %}

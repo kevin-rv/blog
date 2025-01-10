@@ -3,5 +3,11 @@
 {% block title %}Create Category{% endblock %}
 
 {% block body %}
+<div>
+<a href="/category" class="btn btn-danger text-white">
+  <i class="bi bi-backspace"></i>
+</a>
+<h1>Créer une catégorie</h1>
+</div>
 {{ form(category) }}
 {% endblock %}
