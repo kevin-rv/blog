@@ -6,8 +6,8 @@
 <a href="/category" class="btn btn-danger text-white">
   <i class="bi bi-backspace"></i>
 </a>
-    <h1>Category ✅</h1>
-    <h1>Titre : {{ category.title }}</h1>
+    <h1>Mise à jour de la categorie: {{category.title}}</h1>
+    {{ form(form) }}
     <h1>Articles Associer ✅</h1>
     {% if category.articles is empty %}
         <p>Aucun article associé.</p>

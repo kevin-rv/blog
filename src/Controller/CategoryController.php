@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Form\CategoryType;
+use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,15 +32,43 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/category/{categoryId}/edit', name: 'category_update')]
-    public function update(CategoryRepository $repository, int $id): Response
+    #[Route('/category/{categoryId}/edit', name: 'category_update', requirements: ['categoryId' => '\d+'])]
+    public function update(Request $request,CategoryRepository $repository, int $categoryId, EntityManagerInterface $em): Response
     {
-        $category = $repository->find($id);
+        $category = $repository->find($categoryId);
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($category);
+            $em->flush();
+            return $this->redirectToRoute('app_category');
+        }
 
-
-        return $this->render('category/index.html.twig', [
+        return $this->render('category/update.html.twig', [
             'category' => $category,
+            'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/category/{categoryId}/delete', name: 'category_delete', requirements: ['categoryId' => '\d+'])]
+    public function delete(CategoryRepository $categoryRepository, ArticleRepository $articleRepository, int $categoryId, EntityManagerInterface $em): Response
+    {
+        $category = $categoryRepository->find($categoryId);
+        $articles = $articleRepository->findBy(["category" => $category]);
+        if (empty($articles)) {
+            $em->remove($category);
+            $em->flush();
+        }
+        foreach($articles as $article) 
+        {
+            $article->setCategory(null);
+            $em->persist($article);
+        }
+
+        $em->remove($category);
+        $em->flush();
+     
+        return $this->redirectToRoute('app_category');
     }
 
     #[Route('/category/create', name: 'category_create')]
