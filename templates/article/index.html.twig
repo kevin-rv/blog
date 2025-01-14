@@ -9,9 +9,11 @@
 
 <div>
     <h1 class="">Articles ✅</h1>
-    <a href="article/create" class="btn btn-info text-white">
-   <i class="bi bi-plus-circle"></i>
-    </a>
+    {% if is_granted('ROLE_USER') %}
+        <a href="article/create" class="btn btn-info text-white">
+            <i class="bi bi-plus-circle"></i>
+        </a>
+    {% endif %}
     {% if articles is empty %}
     <p>Aucun article disponible.</p>
     {% else %}
@@ -19,22 +21,37 @@
 {#            {{ dump(article) }}#}
 {#            {{ dump(article.createdAt|date('à H:i le d-m-Y')) }}#}
 {#            {{ dump(article.createdAt|date('l d F Y à H:i'))}}#}
-            <div class="container d-flex justify-content-center mt-5">
-                <div class="card mb-3" >
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            <img src="..." class="img-fluid rounded-start" alt="...">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title"><a href="article/{{ article.id }}">{{ article.title }}</a></h5>
-                                <p class="card-text">{{ article.contentPreview }}...</p>
-                                <p class="card-text"><small class="text-body-secondary">Last updated {{ article.createdAt|date('l d F Y à H:i') }}</small></p>
+            <article>
+            
+                <div class="container d-flex justify-content-center mt-5">
+                    <div class="card mb-3" >
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                {% if article.image %}
+                                    <img class="img-fluid w-50" src="{{ asset('uploads/images/' ~ article.image) }}" alt="Image de l'article">
+                                {% endif %}
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="article/{{ article.id }}">{{ article.title }}</a></h5>
+                                    {% if is_granted('ROLE_USER') and app.user.id == article.user.id %}
+                                        <a href="article/{{ article.id }}/edit" class="btn btn-primary text-white">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                    {% endif %}  
+                                    <p class="card-text">{{ article.contentPreview }}...</p>
+                                    <p class="card-text"><small class="text-body-secondary">derniere mise a jour {{ article.updatedAt|date('l d F Y à H:i') }}</small></p>
+                                    {% if is_granted('ROLE_USER') and app.user.id == article.user.id %}
+                                                <a href="article/{{ article.id }}/delete" class="btn btn-danger text-white">
+                                                    <i class="bi bi-trash3"></i>
+                                                </a>
+                                    {% endif %}  
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </article>
 
         {% endfor %}
     {% endif %}

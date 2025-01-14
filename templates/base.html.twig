@@ -28,9 +28,15 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('article') }}">Articles</a>
                     </li>
+                    {# <li class="nav-item">
+                        <a class="nav-link" href="{{ path('my_article') }}">Mes Articles</a>
+                    </li> #}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_category') }}">Catégories</a>
                     </li>
+                    {# <li class="nav-item">
+                        <a class="nav-link" href="{{ path('contact') }}">Contact</a>
+                    </li> #}
                     {% if is_granted('ROLE_USER') %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
@@ -47,6 +53,13 @@
             </div>
         </div>
     </nav>
+            {% for label, messages in app.flashes %}
+            <div class="alert alert-{{ label }}">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
 
     {% block body %}{% endblock %}
     </body>

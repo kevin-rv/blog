@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block body %}
+<a href="/article" class="btn btn-danger text-white">
+  <i class="bi bi-backspace"></i>
+</a>
+    <h1>Mise à jour de l'article: {{article.title}}</h1>
+    {{ form(form) }}
+{% endblock %}
