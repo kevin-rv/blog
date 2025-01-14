@@ -20,11 +20,25 @@ class ArticleController extends AbstractController
     public function index(ArticleRepository $repository, Request $request): Response
     {
         $request->setLocale('fr');
-        $articles = $repository->findAll();
+        $articles = $repository->findBy([], ['createdAt' => 'DESC']);
         foreach ($articles as $article) {
             $article->contentPreview = substr($article->getContent(), 0, 200);
         }
         return $this->render('article/index.html.twig', [
+            'articles' => $articles,
+        ]);
+    }
+
+    #[Route('/myArticle', name: 'my_article')]
+    public function getMyArticle(ArticleRepository $repository, Request $request, Security $security): Response
+    {
+        $userLoginId = $security->getUser()->getId();
+        $articles = $repository->findBy(["user" => $userLoginId], ['createdAt' => 'DESC']);
+       // dd($articles);
+        foreach ($articles as $article) {
+            $article->contentPreview = substr($article->getContent(), 0, 200);
+        }
+        return $this->render('article/myArticle.html.twig', [
             'articles' => $articles,
         ]);
     }
