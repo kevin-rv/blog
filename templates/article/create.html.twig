@@ -3,11 +3,44 @@
 {% block title %}Create Article{% endblock %}
 
 {% block body %}
-<div>
-    <a href="/article" class="btn btn-danger text-white">
-        <i class="bi bi-backspace"></i>
-    </a>
-    <h1>Créer un article</h1>
+<style>
+    .article-card {
+        transition: transform 0.2s;
+    }
+    .article-card:hover {
+        transform: scale(1.05);
+    }
+    .no-articles {
+        text-align: center;
+        margin-top: 50px;
+        font-size: 1.5rem;
+        color: #6c757d;
+    }
+    .card-img-left {
+        width: 150px;
+        height: 150px;
+        object-fit: cover; 
+    }
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+</style>
+
+<div class="container mt-5">
+    <div>
+        <a href="/article" class="btn btn-danger text-white mb-3">
+            <i class="bi bi-backspace"></i> Retour aux articles
+        </a>
+        <h1 class="text-center">Créer un article</h1>
+    </div>
+
+    <div class="mt-4">
+        <form method="post" enctype="multipart/form-data">
+            {{ form(form) }}
+        </form>
+    </div>
+
 </div>
-    {{ form(form) }}
 {% endblock %}

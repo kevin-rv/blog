@@ -1,59 +1,73 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ArticleController!{% endblock %}
+{% block title %}Article!{% endblock %}
 
 {% block body %}
 <style>
-
+    .article-card {
+        transition: transform 0.2s;
+    }
+    .article-card:hover {
+        transform: scale(1.05);
+    }
+    .no-articles {
+        text-align: center;
+        margin-top: 50px;
+        font-size: 1.5rem;
+        color: #6c757d;
+    }
 </style>
 
-<div>
-    <h1 class="">Mes Articles ✅</h1>
+<div class="container mt-5">
+    <h1 class="text-center">Mes Articles ✅</h1>
+    
     {% if is_granted('ROLE_USER') %}
-        <a href="article/create" class="btn btn-info text-white">
-            <i class="bi bi-plus-circle"></i>
-        </a>
+        <div class="text-end mb-3">
+            <a href="article/create" class="btn btn-info text-white">
+                <i class="bi bi-plus-circle"></i> Ajouter un article
+            </a>
+        </div>
     {% endif %}
+
     {% if articles is empty %}
-    <p>Aucun article disponible.</p>
+        <p class="no-articles">Aucun article disponible.</p>
     {% else %}
-        {% for article in articles %}
-{#            {{ dump(article) }}#}
-{#            {{ dump(article.createdAt|date('à H:i le d-m-Y')) }}#}
-{#            {{ dump(article.createdAt|date('l d F Y à H:i'))}}#}
-            <article>
-            
-                <div class="container d-flex justify-content-center mt-5">
-                    <div class="card mb-3" >
+        <div class="row">
+            {% for article in articles %}
+                <div class="col-md-4 mb-4">
+                    <div class="article-card card h-100">
                         <div class="row g-0">
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 {% if article.image %}
-                                    <img class="img-fluid w-50" src="{{ asset('uploads/images/' ~ article.image) }}" alt="Image de l'article">
+                                    <img class="card-img-top" src="{{ asset('uploads/images/' ~ article.image) }}" alt="Image de l'article">
+                                {% else %}
+                                    <img class="card-img-top" src="{{ asset('uploads/images/blog_default.png.webp') }}" alt="Image de l'article">
                                 {% endif %}
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <div class="card-body">
                                     <h5 class="card-title"><a href="article/{{ article.id }}">{{ article.title }}</a></h5>
+                                    
                                     {% if is_granted('ROLE_USER') and app.user.id == article.user.id %}
-                                        <a href="article/{{ article.id }}/edit" class="btn btn-primary text-white">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </a>
-                                    {% endif %}  
-                                    {% if is_granted('ROLE_USER') and app.user.id == article.user.id %}
-                                                <a href="article/{{ article.id }}/delete" class="btn btn-danger text-white">
-                                                    <i class="bi bi-trash3"></i>
-                                                </a>
-                                    {% endif %}  
+                                        <div class="btn-group mb-2" role="group" aria-label="Actions">
+                                            <a href="article/{{ article.id }}/edit" class="btn btn-primary text-white">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
+                                            <a href="article/{{ article.id }}/delete" class="btn btn-danger text-white">
+                                                <i class="bi bi-trash3"></i>
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                    
                                     <p class="card-text">{{ article.contentPreview }}...</p>
-                                    <p class="card-text"><small class="text-body-secondary">derniere mise a jour {{ article.updatedAt|date('l d F Y à H:i') }}</small></p>
+                                    <p class="card-text"><small class="text-muted">Dernière mise à jour {{ article.updatedAt|date('l d F Y à H:i') }}</small></p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </article>
-
-        {% endfor %}
+            {% endfor %}
+        </div>
     {% endif %}
 </div>
 {% endblock %}

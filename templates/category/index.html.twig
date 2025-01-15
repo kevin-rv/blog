@@ -1,49 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CategoryController!{% endblock %}
+{% block title %}Liste des Catégories{% endblock %}
 
 {% block body %}
-<style>
-</style>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Liste des Catégories ✅</h1>
 
-<div>
-    <h1>Categories ✅</h1>
-    <a href="category/create" class="btn btn-info text-white">
-        <i class="bi bi-plus-circle"></i>
-    </a>
+    <div class="d-flex justify-content-end mb-3">
+        <a href="category/create" class="btn btn-info text-white">
+            <i class="bi bi-plus-circle"></i> Ajouter une catégorie
+        </a>
+    </div>
 
-   
     {% if categories is empty %}
-    <p>Aucune catégorie disponible.</p>
+        <p class="text-center text-muted">Aucune catégorie disponible.</p>
     {% else %}
- <table class="table table-striped table-hover w-75 mx-auto">
-  <thead>
-    <tr>
-      <th scope="col">Titre</th>
-      <th scope="col">Nombre d'article</th>
-      <th scope="col">Action</th>
-    </tr>
-  </thead>
-  <tbody class="table-group-divider">
-   {% for category in categories %}
-    <tr>
-        <td> {{ category.title }} </td>
-        <td>{{category.articles|length}}</td>
-        <td>
-                <a href="category/{{ category.id }}" class="btn btn-info text-white">
-                    <i class="bi bi-eye"></i>
-                </a>
-                <a href="category/{{ category.id }}/edit" class="btn btn-primary text-white">
-                    <i class="bi bi-pencil-square"></i>
-                </a>
-                <a href="category/{{ category.id }}/delete" class="btn btn-danger text-white">
-                    <i class="bi bi-trash3"></i>
-                </a>
-        </td>
-    </tr>
-     {% endfor %}
-  </tbody>
-</table>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover shadow-sm rounded-3">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">Titre</th>
+                        <th scope="col">Nombre d'articles</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in categories %}
+                        <tr>
+                            <td>{{ category.title }}</td>
+                            <td>{{ category.articles|length }}</td>
+                            <td>
+                                <a href="category/{{ category.id }}" class="btn btn-info text-white btn-sm">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="category/{{ category.id }}/edit" class="btn btn-primary text-white btn-sm">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a href="category/{{ category.id }}/delete" class="btn btn-danger text-white btn-sm">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     {% endif %}
 </div>
 {% endblock %}

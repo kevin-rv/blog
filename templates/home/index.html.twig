@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <div class="jumbotron text-center">
+        {% if is_granted('ROLE_USER') %}
+            <h1 class="display-4">Bienvenue sur mon blog {{ username }}!</h1>
+        {% else %}
+            <h1 class="display-4">Bienvenue sur mon blog!</h1>
+        {% endif %}
+        <p class="lead">Un espace pour partager vos pensées et vos idées.</p>
+        <hr class="my-4">
+        <p>Exprimez-vous librement et partagez ce qui vous tient à cœur.</p>
+        
+        <a href="{{ path('article') }}" class="btn btn-primary btn-lg">Commencer a lire</a>
+    </div>
+</div>
+{% endblock %}

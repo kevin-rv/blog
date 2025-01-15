@@ -1,12 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Contact{% endblock %}
+{% block title %}Contact - {{ contact.email }}{% endblock %}
 
 {% block body %}
-<a href="/contactAll" class="btn btn-danger text-white">
-  <i class="bi bi-backspace"></i>
-</a>
-    <h1>Contact ✅</h1>
-    <h1>Email : {{ contact.email }}</h1>
-    <p>Message: {{ contact.message }}</p>
+<div class="container mt-5">
+    <a href="{{ path('all_contact') }}" class="btn btn-danger text-white mb-4">
+        <i class="bi bi-arrow-left-circle"></i> Retour à la liste des contacts
+    </a>
+
+    <h1 class="display-4 text-center mb-4">Détails du Contact</h1>
+    
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="h5">Email :</h2>
+            <p class="text-muted">{{ contact.email }}</p>
+
+            <h2 class="h5 mt-3">Message :</h2>
+            <p>{{ contact.message }}</p>
+        </div>
+    </div>
+</div>
 {% endblock %}

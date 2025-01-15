@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class ArticleController extends AbstractController
 {
@@ -30,6 +31,7 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/myArticle', name: 'my_article')]
+    #[IsGranted('ROLE_USER')]
     public function getMyArticle(ArticleRepository $repository, Request $request, Security $security): Response
     {
         $userLoginId = $security->getUser()->getId();
@@ -53,6 +55,7 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/article/create', name: 'article_create')]
+    #[IsGranted('ROLE_USER')]
     public function create(EntityManagerInterface $em, Request $request): Response
     {
         $article = new Article();
@@ -88,6 +91,7 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/article/{articleId}/edit', name: 'article_update', requirements: ['articleId' => '\d+'])]
+    #[IsGranted('ROLE_USER')]
     public function update(Request $request,ArticleRepository $repository, int $articleId, EntityManagerInterface $em, Security $security): Response
     {
         $article = $repository->find($articleId);
@@ -141,6 +145,7 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/article/{articleId}/delete', name: 'article_delete', requirements: ['articleId' => '\d+'])]
+    #[IsGranted('ROLE_USER')]
     public function delete(ArticleRepository $articleRepository, int $articleId, EntityManagerInterface $em, Security $security): Response
     {
         $article = $articleRepository->find($articleId);
@@ -165,4 +170,49 @@ class ArticleController extends AbstractController
         }
         return $this->redirectToRoute('article');
     }
+
+
+    #[Route('/articleAdmin', name: 'admin_article')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function getArticleAdmin(ArticleRepository $repository): Response
+    {
+            $articles = $repository->findBy([], ['createdAt' => 'DESC']);
+            foreach ($articles as $article) {
+                $article->titlePreview = substr($article->getTitle(), 0, 15);
+                $article->contentPreview = substr($article->getContent(), 0, 50);
+            }
+            return $this->render('article/articleAdmin.html.twig', [
+                'articles' => $articles,
+            ]);
+    }
+
+    #[Route('/articleAdmin/{articleId}', name: 'admin_one_article', requirements: ['articleId' => '\d+'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function getOneArticleAdmin(ArticleRepository $repository, int $articleId): Response
+    {
+        
+            $article = $repository->find($articleId);
+            return $this->render('article/showAdmin.html.twig', [
+                'article' => $article,
+            ]);
+    }
+
+    #[Route('/articleAdmin/{articleId}/delete', name: 'article_delete', requirements: ['articleId' => '\d+'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function deleteAdmin(ArticleRepository $articleRepository, int $articleId, EntityManagerInterface $em): Response
+    {
+            $article = $articleRepository->find($articleId);
+            $file = $article->getImage();
+                if($file) {
+                    $filepath = $this->getParameter('images_directory') . '/' . $file;
+                    if (file_exists($filepath)) {
+                        unlink($filepath); 
+                    
+                }
+                $em->remove($article);
+                $em->flush();
+                $this->addFlash("success", "suppression réussi");
+                return $this->redirectToRoute('admin_article');
+            }
+        }
 }

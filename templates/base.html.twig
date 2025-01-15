@@ -13,17 +13,35 @@
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
+    <style>
+    html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1; /* Prend tout l'espace disponible */
+}
+
+footer {
+    margin-top: auto; /* Pousse le footer vers le bas */
+}
+</style>
     <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ path('article') }}">Mon Blog</a>
+            <a class="navbar-brand" href="{{ path('home') }}">Mon Blog</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('article') }}">Accueil</a>
+                        <a class="nav-link" href="{{ path('home') }}">Accueil</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('article') }}">Articles</a>
@@ -33,23 +51,23 @@
                         <a class="nav-link" href="{{ path('my_article') }}">Mes Articles</a>
                     </li>
                     {% endif %}
-                    {% if is_granted('ROLE_ADMIN') %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_category') }}">Liste Utilisateur</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_category') }}">Catégories</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('article') }}">Articles</a>
-                    </li>
-                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_contact') }}">Contact</a>
                     </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_category') }}">Catégories Admin</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('admin_article') }}">Articles Admin</a>
+                        </li>
+                            <li class="nav-item">
+                            <a class="nav-link" href="{{ path('all_contact') }}">Liste Contact</a>
+                        </li>
+                    {% endif %}
                     {% if is_granted('ROLE_USER') %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+                            <a class="nav-link text-danger" href="{{ path('app_logout') }}">Se déconnecter</a>
                         </li>
                     {% else %}
                         <li class="nav-item">
@@ -59,6 +77,7 @@
                             <a class="nav-link" href="{{ path('sign_up') }}">S'inscrire</a>
                         </li>
                     {% endif %}
+                   
                 </ul>
             </div>
         </div>
@@ -72,5 +91,11 @@
         {% endfor %}
 
     {% block body %}{% endblock %}
+            <footer class="mt-5 mb-3 text-center">
+        {% block footer %}
+            <p>&copy; {{ "now"|date("Y") }} Mon Blog. Tous droits réservés.</p>
+        {% endblock %}
+        </footer>
     </body>
+
 </html>

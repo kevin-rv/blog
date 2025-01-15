@@ -1,13 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Create Category{% endblock %}
+{% block title %}Créer une catégorie{% endblock %}
 
 {% block body %}
-<div>
-<a href="/category" class="btn btn-danger text-white">
-  <i class="bi bi-backspace"></i>
-</a>
-<h1>Créer une catégorie</h1>
+<div class="container mt-5">
+    <a href="{{ path('app_category') }}" class="btn btn-danger text-white mb-4">
+        <i class="bi bi-arrow-left-circle"></i> Retour à la liste des catégories
+    </a>
+
+    <h1 class="display-4 text-center mb-4">Créer une nouvelle catégorie</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="h5 mb-4">Veuillez remplir les informations suivantes :</h2>
+            {{ form(category) }}
+        </div>
+    </div>
 </div>
-{{ form(category) }}
 {% endblock %}

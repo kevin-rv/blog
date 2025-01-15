@@ -3,10 +3,41 @@
 {% block title %}Contact{% endblock %}
 
 {% block body %}
+<style>
+    .contact-card {
+        transition: transform 0.2s;
+    }
+    .contact-card:hover {
+        transform: scale(1.05);
+    }
+    .no-contact {
+        text-align: center;
+        margin-top: 50px;
+        font-size: 1.5rem;
+        color: #6c757d;
+    }
+    .card-img-left {
+        width: 150px;
+        height: 150px;
+        object-fit: cover; 
+    }
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+</style>
 
-<div>
-    <h1>Contact ✅</h1>
-    {{ form(form) }}
+<div class="container mt-5">
+    <div>
+        <h1 class="text-center">Contact ✅</h1>
+    </div>
+
+    <div class="mt-4">
+        <form method="post" enctype="multipart/form-data">
+            {{ form(form) }}
+        </form>
+    </div>
 
 </div>
 {% endblock %}

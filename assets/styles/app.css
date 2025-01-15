@@ -1,3 +1,17 @@
 body {
     background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+html, body {
+    height: 100%;
+}
+
+.container {
+    flex: 1; /* Prend tout l'espace disponible */
+}
+
+footer {
+    margin-top: auto; /* Pousse le footer vers le bas */
 }

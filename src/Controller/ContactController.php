@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class ContactController extends AbstractController
 {
@@ -46,6 +47,7 @@ class ContactController extends AbstractController
     }
 
     #[Route('/contactAll', name: 'all_contact')]
+    #[IsGranted('ROLE_ADMIN')]
     public function getAllContact(ContactRepository $contactRepository): Response
     {
         $contacts = $contactRepository->findAll();
@@ -56,6 +58,7 @@ class ContactController extends AbstractController
     }
 
     #[Route('/contact/{contactId}', name: 'show_contact')]
+    #[IsGranted('ROLE_ADMIN')]
     public function getOneContact(int $contactId, ContactRepository $contactRepository): Response
     {
         $contact = $contactRepository->find($contactId);
@@ -66,6 +69,7 @@ class ContactController extends AbstractController
     }
 
     #[Route('/contact/{contactId}/delete', name: 'delete_contact')]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(int $contactId, ContactRepository $contactRepository, EntityManagerInterface $em): Response
     {
         $contact = $contactRepository->find($contactId);

@@ -1,11 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ article.title }}{% endblock %}
+{% block title %}Mise à jour de l'article - {{ article.title }}{% endblock %}
 
 {% block body %}
-<a href="/article" class="btn btn-danger text-white">
-  <i class="bi bi-backspace"></i>
-</a>
-    <h1>Mise à jour de l'article: {{article.title}}</h1>
-    {{ form(form) }}
+<div class="container mt-5">
+    <a href="{{ path('article') }}" class="btn btn-danger text-white mb-4">
+        <i class="bi bi-arrow-left-circle"></i> Retour à la liste des articles
+    </a>
+
+    <h1 class="display-4 text-center mb-4">Mise à jour de l'article</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="h5 mb-4">Titre : {{ article.title }}</h2>
+            {{ form(form) }}
+        </div>
+    </div>
+</div>
 {% endblock %}
