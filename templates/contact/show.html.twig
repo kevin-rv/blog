@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block body %}
+<a href="/contactAll" class="btn btn-danger text-white">
+  <i class="bi bi-backspace"></i>
+</a>
+    <h1>Contact ✅</h1>
+    <h1>Email : {{ contact.email }}</h1>
+    <p>Message: {{ contact.message }}</p>
+{% endblock %}
