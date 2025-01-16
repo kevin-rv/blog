@@ -163,10 +163,10 @@ class ArticleController extends AbstractController
             }
             $em->remove($article);
             $em->flush();
-            $this->addFlash("success", "suppression réussi");
+            $this->addFlash("success", "suppression réussie");
         }
         else {
-            $this->addFlash("danger", "suppression echouer");
+            $this->addFlash("danger", "suppression echouée");
         }
         return $this->redirectToRoute('article');
     }
@@ -197,7 +197,7 @@ class ArticleController extends AbstractController
             ]);
     }
 
-    #[Route('/articleAdmin/{articleId}/delete', name: 'article_delete', requirements: ['articleId' => '\d+'])]
+    #[Route('/articleAdmin/{articleId}/delete', name: 'admin_article_delete', requirements: ['articleId' => '\d+'])]
     #[IsGranted('ROLE_ADMIN')]
     public function deleteAdmin(ArticleRepository $articleRepository, int $articleId, EntityManagerInterface $em): Response
     {
@@ -211,7 +211,7 @@ class ArticleController extends AbstractController
                 }
                 $em->remove($article);
                 $em->flush();
-                $this->addFlash("success", "suppression réussi");
+                $this->addFlash("success", "suppression réussie");
                 return $this->redirectToRoute('admin_article');
             }
         }

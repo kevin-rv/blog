@@ -38,7 +38,7 @@ class ContactController extends AbstractController
             } catch (\Exception $e) {
                 echo 'Erreur lors de l\'envoi de l\'email : ' . $e->getMessage();
             }
-           $this->addFlash("success", "Message envoyer");
+           $this->addFlash("success", "Message envoyé");
            return $this->redirectToRoute("article");
         }
         return $this->render('contact/index.html.twig', [
@@ -50,7 +50,7 @@ class ContactController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function getAllContact(ContactRepository $contactRepository): Response
     {
-        $contacts = $contactRepository->findAll();
+        $contacts = $contactRepository->findBy([], ['id' => 'DESC']);
         
         return $this->render('contact/getAll.html.twig', [
             'contacts' => $contacts,
@@ -76,7 +76,7 @@ class ContactController extends AbstractController
         $em->remove($contact);
         $em->flush();
         
-        $this->addFlash("success", "suppression reussi");
+        $this->addFlash("success", "suppression reussie");
         return $this->redirectToRoute("all_contact");
     }
 }

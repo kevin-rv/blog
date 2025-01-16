@@ -35,7 +35,7 @@ class UserController extends AbstractController
                 'form' => $form->createView(),
             ]);
         }
-        $this->addFlash("danger", "veuillez vous deconnecter pour creer un nouveau compte");
+        $this->addFlash("danger", "veuillez vous déconnecter pour créer un nouveau compte");
         return $this->redirectToRoute("article");
 
     }
