@@ -3,6 +3,8 @@
 /.env.local
 /.env.local.php
 /.env.*.local
+/.env.dev
+/.env.test
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
@@ -47,3 +49,5 @@
 
 # Ignorer les fichiers de configuration de test
 /tests/Results/
+
+
