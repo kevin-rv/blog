@@ -202,6 +202,12 @@ class ArticleController extends AbstractController
     public function deleteAdmin(ArticleRepository $articleRepository, int $articleId, EntityManagerInterface $em): Response
     {
             $article = $articleRepository->find($articleId);
+
+            if (!$article) {
+                $this->addFlash("danger", "Article non trouvé.");
+                return $this->redirectToRoute('admin_article');
+            }
+            
             $file = $article->getImage();
                 if($file) {
                     $filepath = $this->getParameter('images_directory') . '/' . $file;
@@ -214,5 +220,9 @@ class ArticleController extends AbstractController
                 $this->addFlash("success", "suppression réussie");
                 return $this->redirectToRoute('admin_article');
             }
+            $em->remove($article);
+            $em->flush();
+            $this->addFlash("success", "suppression réussie");
+            return $this->redirectToRoute('admin_article');
         }
 }
