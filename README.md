@@ -8,7 +8,7 @@ Ce projet est un site web de type blog, développé avec Symfony et Twig Bootstr
 - [Prérequis](#prérequis)
 - [Installation](#installation)
 - [Configuration](#configuration)
-  - [Passer en mode developpement](#passer-en-mode-developpement)
+  - [Passer en mode développement](#passer-en-mode-developpement)
   - [Passer en mode production](#passer-en-mode-production)
   - [Utilisation du Makefile](#utilisation-du-makefile)
 - [Mode Admin](#mode-admin)
