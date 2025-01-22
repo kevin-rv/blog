@@ -68,10 +68,19 @@ Symfony fonctionne avec deux environnements :
 ```env
 APP_ENV=dev
 APP_DEBUG=1
+APP_SECRET=your_generated_secret_key
 DATABASE_URL="mysql://utilisateur:motdepasse@127.0.0.1:3306/nom_base" 
 MAILER_DSN="smtp://user:password@smtp.example.com"
 MAILER_FROM_ADDRESS="email@email.com"
 ```
+
+#### Générer une clé secrète aléatoire : 
+
+Si vous devez générer un APP_SECRET, vous pouvez utiliser la commande Symfony CLI pour le faire :
+```bash
+symfony secret:generate
+```
+
 3. Lancez le serveur Symfony : 
 ```bash
 symfony serve
@@ -85,10 +94,18 @@ symfony serve
 ```env
 APP_ENV=prod
 APP_DEBUG=0
+APP_SECRET=your_generated_secret_key
 DATABASE_URL="mysql://utilisateur:motdepasse@127.0.0.1:3306/nom_base" 
 MAILER_DSN="smtp://user:password@smtp.example.com"
 MAILER_FROM_ADDRESS="email@email.com"
 ```
+#### Générer une clé secrète aléatoire : 
+
+Si vous devez générer un APP_SECRET, vous pouvez utiliser la commande Symfony CLI pour le faire :
+```bash
+symfony secret:generate
+```
+
 3. Installez les dépendances nécessaires en production :
 
 ```bash
